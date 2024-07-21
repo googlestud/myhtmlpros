@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ideal Calculator</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .calculator input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 3px;
+      font-size: 24px;
+      text-align: right;
+    }
+
+    .calculator button {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+      background-color: #cccccc;
+      border: none;
+      border-radius: 3px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .calculator button.clear {
+      background-color: #f44336;
+      color: #ffffff;
+    }
+
+    .calculator button.clear:hover {
+      background-color: #d32f2f;
+    }
+
+    .calculator button.operator {
+      background-color: #ff9800;
+      color: #ffffff;
+    }
+
+    .calculator button.operator:hover {
+      background-color: #f57c00;
+    }
+
+    .calculator button.equal {
+      background-color: #4caf50;
+      color: #ffffff;
+    }
+
+    .calculator button.equal:hover {
+      background-color: #388e3c;
+    }
+
+    .calculator button.extra {
+      background-color: #757575;
+      color: #ffffff;
+    }
+
+    .calculator button.extra:hover {
+      background-color: #616161;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" readonly>
+    <button onclick="erase()" class="extra">C</button>
+    <button onclick="clearEntry()" class="extra">CE</button>
+    <button onclick="appendToDisplay('%')" class="extra">%</button>
+    <button onclick="appendToDisplay('^2')" class="extra">^2</button>
+    <br>
+    <button onclick="appendToDisplay('7')">7</button>
+    <button onclick="appendToDisplay('8')">8</button>
+    <button onclick="appendToDisplay('9')">9</button>
+    <button onclick="appendToDisplay('+')" class="operator">+</button>
+    <br>
+    <button onclick="appendToDisplay('4')">4</button>
+    <button onclick="appendToDisplay('5')">5</button>
+    <button onclick="appendToDisplay('6')">6</button>
+    <button onclick="appendToDisplay('-')" class="operator">-</button>
+    <br>
+    <button onclick="appendToDisplay('1')">1</button>
+    <button onclick="appendToDisplay('2')">2</button>
+    <button onclick="appendToDisplay('3')">3</button>
+    <button onclick="appendToDisplay('*')" class="operator">*</button>
+    <br>
+    <button onclick="appendToDisplay('0')">0</button>
+    <button onclick="appendToDisplay('.')" id="decimal">.</button>
+    <button onclick="calculate()" class="equal">=</button>
+    <button onclick="appendToDisplay('/')" class="operator">/</button>
+    <br>
+    <button onclick="calculateSquareRoot()" class="extra">√</button>
+    <button onclick="calculateReciprocal()" class="extra">1/x</button>
+    <button onclick="calculateFactorial()" class="extra">!</button>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function appendToDisplay(value) {
+      display.value += value;
+    }
+
+    function calculate() {
+      try {
+        const result = eval(display.value);
+        display.value = result;
+      } catch (error) {
+        display.value = 'Error';
+      }
+    }
+
+    function erase() {
+      const currentValue = display.value;
+      display.value = currentValue.substring(0, currentValue.length - 1);
+    }
+
+    function clearEntry() {
+      display.value = '';
+    }
+
+    function calculateSquareRoot() {
+      try {
+        const result = Math.sqrt(eval(display.value));
+        display.value = result;
+      } catch (error) {
+        display.value = 'Error';
+      }
+    }
+
+    function calculateReciprocal() {
+      try {
+        const result = 1 / eval(display.value);
+        display.value = result;
+      } catch (error) {
+        display.value = 'Error';
+      }
+    }
+
+    function calculateFactorial() {
+      try {
+        const num = parseInt(display.value);
+        let result = 1;
+
+        if (num >= 0) {
+          for (let i = 1; i <= num; i++) {
+            result *= i;
+          }
+        } else {
+          result = 'Invalid input';
+        }
+
+        display.value = result;
+      } catch (error) {
+        display.value = 'Error';
+      }
+    }
+
+    function handleKeyPress(event) {
+      const key = event.key;
+
+      if (key === 'Enter') {
+        calculate();
+      } else if (key === 'Escape') {
+        clearDisplay();
+      } else if (key === '.' || key === '+' || key === '-' || key === '*' || key === '/') {
+        appendToDisplay(key);
+      } else if (/[0-9]/.test(key)) {
+        appendToDisplay(key);
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyPress);
+  </script>
+</body>
+</html>

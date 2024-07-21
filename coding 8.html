@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .colorful-button {
+            padding: 10px 20px;
+            background-color: #ff6384;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .colorful-button:hover {
+            background-color: #36a2eb;
+        }
+    </style>
+</head>
+<body>
+    <button class="colorful-button" onclick="changeColor()">Click Me!</button>
+
+    <script>
+        function changeColor() {
+            var button = document.querySelector(".colorful-button");
+            var randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+            button.style.backgroundColor = randomColor;
+        }
+    </script>
+</body>
+</html>

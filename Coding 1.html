@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AES Encryption and Decryption </title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        input[type="text"],
+        textarea {
+            border: none;
+            background-color: #555;
+            color: #fff;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+
+        #output {
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .copy-button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #444;
+        }
+
+        .copy-button:active {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>AES Encryption and Decryption </h1>
+    <div style="text-align: center;">
+        <label for="message">Enter Message:</label>
+        <textarea id="message" rows="5" cols="50"></textarea><br>
+
+        <label for="key">Enter Key:</label>
+        <input type="text" id="key"><br>
+
+        <button onclick="encryptMessage()">Encrypt</button>
+        <button onclick="decryptMessage()">Decrypt</button><br>
+
+        <div id="result">
+            <label for="output">Output:</label><br>
+            <textarea id="output" readonly></textarea><br>
+            <button onclick="copyOutput()" id="copyButton" class="copy-button">Copy</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+    <script>
+        function encryptMessage() {
+            var message = document.getElementById("message").value;
+            var key = document.getElementById("key").value;
+
+            if (message === "" || key === "") {
+                alert("Please enter message and key!");
+                return;
+            }
+
+            var encryptedMessage = CryptoJS.AES.encrypt(message, key);
+            document.getElementById("output").value = encryptedMessage.toString();
+        }
+
+        function decryptMessage() {
+            var encryptedMessage = document.getElementById("message").value;
+            var key = document.getElementById("key").value;
+
+            if (encryptedMessage === "" || key === "") {
+                alert("Please enter encrypted message and key!");
+                return;
+            }
+
+            try {
+                var decryptedMessage = CryptoJS.AES.decrypt(encryptedMessage, key);
+                document.getElementById("output").value = decryptedMessage.toString(CryptoJS.enc.Utf8);
+            } catch (error) {
+                alert("Invalid key or encrypted message!");
+            }
+        }
+
+        function copyOutput() {
+            var output = document.getElementById("output");
+            output.select();
+            output.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            document.getElementById("copyButton").innerHTML = "Copied!";
+            setTimeout(function() {
+                document.getElementById("copyButton").innerHTML = "Copy";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

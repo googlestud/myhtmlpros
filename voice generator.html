@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text-to-Voice Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #232323;
+      color: #ffffff;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      margin-top: 40px;
+    }
+
+    textarea {
+      width: 400px;
+      height: 200px;
+      margin-bottom: 10px;
+      resize: none;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    select {
+      width: 200px;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      background-color: #4285f4;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3367d6;
+    }
+
+    #stop-btn {
+      margin-left: 10px;
+      background-color: #db4437;
+    }
+
+    #stop-btn:hover {
+      background-color: #c53929;
+    }
+  </style>
+</head>
+<body>
+  <h1>Text-to-Voice Generator</h1>
+  <div class="container">
+    <textarea id="text-input" placeholder="Enter text here"></textarea>
+    <label for="voice-select">Select Voice:</label>
+    <select id="voice-select"></select>
+    <button id="generate-btn">Generate</button>
+    <button id="stop-btn">Stop</button>
+  </div>
+  <script>
+    // Initialize the speech synthesis API
+    const synth = window.speechSynthesis;
+
+    // Get DOM elements
+    const textInput = document.getElementById('text-input');
+    const voiceSelect = document.getElementById('voice-select');
+    const generateBtn = document.getElementById('generate-btn');
+    const stopBtn = document.getElementById('stop-btn');
+
+    // Load available voices
+    let voices = [];
+    function loadVoices() {
+      voices = synth.getVoices();
+
+      // Populate voice selection dropdown
+      voiceSelect.innerHTML = '';
+      voices.forEach((voice) => {
+        const option = document.createElement('option');
+        option.value = voice.name;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    if (synth.onvoiceschanged !== undefined) {
+      synth.onvoiceschanged = loadVoices;
+    }
+
+    // Event listeners
+    generateBtn.addEventListener('click', () => {
+      const text = textInput.value;
+      if (text !== '') {
+        speakText(text);
+      }
+    });
+
+    stopBtn.addEventListener('click', () => {
+      stopSpeaking();
+    });
+
+    // Function to speak the given text with the selected voice
+    function speakText(text) {
+      const selectedVoice = voiceSelect.value;
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voice = voices.find((v) => v.name === selectedVoice);
+      if (voice) {
+        utterance.voice = voice;
+        synth.speak(utterance);
+      } else {
+        console.error('Selected voice not found.');
+      }
+    }
+
+    // Function to stop speaking
+    function stopSpeaking() {
+      synth.cancel();
+    }
+  </script>
+</body>
+</html>

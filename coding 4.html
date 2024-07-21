@@ -1,0 +1,11 @@
+<h1 id="result">Click the button to roll the dice.</h1>
+<button onclick="rollDice()">Roll Dice</button>
+
+<script>
+  let resultElement = document.getElementById("result");
+
+  function rollDice() {
+    let randomNumber = Math.floor(Math.random() * 6) + 1;
+    resultElement.textContent = "You rolled a " + randomNumber + ".";
+  }
+</script>

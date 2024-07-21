@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sci-Fi Hi-Tech</title>
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: absolute;
+            z-index: -1;
+        }
+
+        #text {
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            font-family: "Arial", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="text">Welcome to the Future!</div>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // Generate random particles
+        function generateParticles() {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const particles = [];
+
+            function Particle() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.speed = Math.random() * 5 + 1;
+                this.size = Math.random() * 5 + 1;
+            }
+
+            Particle.prototype.update = function() {
+                this.x += this.speed;
+                if (this.x > width) {
+                    this.x = 0;
+                }
+            };
+
+            Particle.prototype.draw = function() {
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+            };
+
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        generateParticles();
+    </script>
+
+    <script type="text/python">
+        import time
+
+        def countdown():
+            for i in range(10, 0, -1):
+                print(i)
+                time.sleep(1)
+            print("Blastoff!")
+
+        countdown()
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sci-Fi Hi-Tech</title>
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            perspective: 600px;
+        }
+
+        #cube {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            transform: rotateX(60deg) rotateY(30deg);
+            animation: rotate 10s infinite linear;
+        }
+
+        #cube .face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        #cube .face:nth-child(1) {
+            transform: translateZ(150px);
+        }
+
+        #cube .face:nth-child(2) {
+            transform: rotateY(90deg) translateZ(150px);
+        }
+
+        #cube .face:nth-child(3) {
+            transform: rotateY(180deg) translateZ(150px);
+        }
+
+        #cube .face:nth-child(4) {
+            transform: rotateY(270deg) translateZ(150px);
+        }
+
+        #cube .face:nth-child(5) {
+            transform: rotateX(90deg) translateZ(150px);
+        }
+
+        #cube .face:nth-child(6) {
+            transform: rotateX(-90deg) translateZ(150px);
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotateX(60deg) rotateY(30deg);
+            }
+
+            100% {
+                transform: rotateX(60deg) rotateY(390deg);
+            }
+        }
+
+        #text {
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            font-family: "Arial", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="cube">
+            <div class="face"></div>
+            <div class="face"></div>
+            <div class="face"></div>
+            <div class="face"></div>
+            <div class="face"></div>
+            <div class="face"></div>
+        </div>
+    </div>
+    <div id="text">Welcome to the Future!</div>
+
+    <script>
+        window.addEventListener("mousemove", function(event) {
+            const cube = document.getElementById("cube");
+            const cubeStyle = getComputedStyle(cube);
+
+            const cubeWidth = parseInt(cubeStyle.width);
+            const cubeHeight = parseInt(cubeStyle.height);
+
+            const rotateY = (event.pageX / window.innerWidth - 0.5) * 60;
+            const rotateX = -(event.pageY / window.innerHeight - 0.5) * 60;
+
+            cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+    </script>
+
+    <script type="text/python">
+        def print_hi():
+            print("Hi there! You've entered the Python zone.")
+
+        print_hi()
+    </script>
+</body>
+</html>

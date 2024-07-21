@@ -1,0 +1,18 @@
+<h1 id="timer">10</h1>
+
+<script>
+  let time = 10;
+  let timer = document.getElementById("timer");
+
+  function countdown() {
+    if (time > 0) {
+      timer.textContent = time;
+      time--;
+    } else {
+      timer.textContent = "Time's up!";
+      clearInterval(interval);
+    }
+  }
+
+  let interval = setInterval(countdown, 1000);
+</script>
